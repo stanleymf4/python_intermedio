@@ -59,24 +59,19 @@ def ejemplo_kwargs(**kwargs):
     print(f"kwargs: {kwargs}")
     print("==================================")
 
-
-""" ejemplo_kwargs(api_key="DEMO_NEWSAPI", query="Noticias Python", timeout=30, retries=3)
-ejemplo_kwargs(
-    api_key="DEMO_GUARDIAN",
-    section="technology",
-    from_date="2023-01-01",
-    timeout=30,
-    retries=3,
-) """
-
-
 def newsapi_client(api_key, query, timeout=30, retries=3):
     query_string = urllib.parse.urlencode({"q": query, "apiKey": api_key})
     url = f"{BASE_URL}?{query_string}"
-    with urllib.request.urlopen(url, timeout=timeout) as response:
-        data = response.read().decode("utf-8")
-        return json.loads(data)
-    return f"NewApi {query} con timeout {timeout}"
+    try:
+        with urllib.request.urlopen(url, timeout=timeout) as response:
+            data = response.read().decode("utf-8")
+            return json.loads(data)
+        return f"NewApi {query} con timeout {timeout}"
+    except urllib.error.HTTPError as e:
+        print(f"Error HTTP: {e.code} - {e.reason}")
+        return {"articles": []}
+    
+
 
 
 def fetch_news(api_name, *args, **kwargs):
@@ -96,12 +91,7 @@ def fetch_news(api_name, *args, **kwargs):
     return client(*args, **config)
 
 
-try:
-    response_date = fetch_news("newspi", api_key=API_KEY, query="Noticias Python")
-    for article in response_date.get("articles", []):
-        title = clean_text(article.get("title"))
-        print(f"Título: {title}")
-except urllib.error.URLError as e:
-    print(f"No puede acceder a la API: {e.reason}")
-except Exception as e:
-    print(f"Error: {type(e)}")
+response_date = fetch_news("newspi", api_key=API_KEY, query="Noticias Python")
+for article in response_date.get("articles", []):
+    title = clean_text(article.get("title"))
+    print(f"Título: {title}")

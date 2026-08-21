@@ -9,3 +9,5 @@ except ZeroDivisionError:
     print("Error: No se puede dividir entre cero.")
 except Exception as e:
     print(f"Error: {e}")
+finally:
+    print("print desde finally")
