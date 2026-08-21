@@ -1,6 +1,8 @@
 try:
     a = int(input("Digita un numero: "))
     b = int(input("Digita otro numero: "))
+    if b == 2:
+        raise Exception("No se puede dividir entre 2")
     resultado = a / b
     print(f"El resultado de la division es: {resultado}")
 except ValueError:
