@@ -1,0 +1,19 @@
+[project]
+name = "python-intermedio"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Stanley Melo", email = "ss.melo@uniandes.edu.co" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "ruff>=0.16.4",
+]
+
+[project.scripts]
+python-intermedio = "python_intermedio:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
